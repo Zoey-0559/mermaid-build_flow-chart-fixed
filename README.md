@@ -4,7 +4,7 @@
 [https://github.com/Zoey-0559/flow-chart_change-style](https://github.com/Zoey-0559/flow-chart_change-style)
 
 2. `flow-chart-style`
-> Mermaid 本身有主題／樣式選項限制，第二個 skill 將視覺語言改寫成符合 Mermaid 生成規範的 config／skill；
+> Mermaid 套用樣式直接生成，本身有主題／樣式選項限制，將視覺語言改寫成符合 Mermaid 生成規範的 config／skill；
 
 #### 效率排序（快 → 慢）
 | 1（最快） | **Mermaid 預設** | 直接產出 |
