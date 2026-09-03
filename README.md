@@ -1,10 +1,16 @@
-兩套工具，對應兩種情境。
+#### 兩套工具，對應兩種情境：
 1. `flowchart-change-style`（資料夾：`flow change style`）
 > 過 Mermaid，直接依設計 token 重畫成 SVG。
 [https://github.com/Zoey-0559/flow-chart_change-style](https://github.com/Zoey-0559/flow-chart_change-style)
 
 2. `flow-chart-style`（資料夾：`flow mermaid build`）
 > Mermaid 本身有主題／樣式選項限制，第二個 skill 將視覺語言改寫成符合 Mermaid 生成規範的 config／skill；
+
+#### 效率排序（快 → 慢）
+| 1（最快） | **Mermaid 預設** | 直接產出 |
+| 2 | **生成即美化**（`flow-chart-style`） | 一次生成就帶樣式 |
+| 3（最慢） | **二次繪製**（`flowchart-change-style`） | 要先讀圖 → 建模（列節點與邊、判語意）→ 依 token 重畫 SVG → 撐版面 → 檢查零重疊 |
+
 
 ---
 
