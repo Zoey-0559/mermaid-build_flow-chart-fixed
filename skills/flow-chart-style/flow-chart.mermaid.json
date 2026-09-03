@@ -1,0 +1,102 @@
+{
+  "$schema": "https://raw.githubusercontent.com/mermaid-js/mermaid/develop/packages/mermaid/src/schemas/config.schema.yaml",
+  "//": "Flow Chart Style — 可攜設定檔，供 /mermaid-skill 使用。頂層是合法的 Mermaid config，可直接餵給 mmdc --configFile；x-flowChartStyle 區塊是 Kroki / mermaid.live 使用者的複製貼上素材與轉檔配方。來源：flow_sample.mmd + flow_chart_style.json v1.0.0",
+
+  "theme": "base",
+  "fontFamily": "roboto, Noto Sans, PingFang TC, Sans-Serif, Microsoft JhengHei",
+  "themeVariables": {
+    "fontFamily": "roboto, Noto Sans, PingFang TC, Sans-Serif, Microsoft JhengHei",
+    "background": "#F7F7F7",
+    "edgeLabelBackground": "#FFFFFF",
+    "lineColor": "#000000",
+    "primaryColor": "#FFFFFF",
+    "primaryBorderColor": "#C0C6CB",
+    "primaryTextColor": "#000000"
+  },
+  "themeCSS": ".node polygon,.node circle,.node rect,.node path,.node .outer-path{filter:none} .cluster rect{filter:none}",
+  "flowchart": { "curve": "basis", "nodeSpacing": 40, "rankSpacing": 55, "htmlLabels": false, "padding": 12 },
+
+  "x-flowChartStyle": {
+    "version": "1.2.0",
+    "source": ["flow_sample.mmd", "flow_chart_style.json v1.0.0"],
+    "appliesTo": "flowchart TD / LR",
+
+    "howToUse": [
+      "最快路線（build_flow.py）：python3 build_flow.py diagram.mmd —— 輸入一張純 flowchart（可加 `%% @類名` 提示），自動注入 initDirective、為每個節點加 :::類名、依連線順序自動編號 linkStyle、產生群組框 style、驗證後輸出 SVG（有 mmdc 就順便出 PNG）。此 JSON 的頂層 config 是 initDirective 的唯一來源。",
+      "路線 A（本機 mmdc）：mmdc --configFile flow-chart.mermaid.json -i diagram.mmd -o diagram.svg —— 主題層自動套用，diagram.mmd 內不必寫 %%{init}%%，但仍要在圖尾貼上 styleBlock。",
+      "路線 B（Kroki / mermaid.live，免安裝）：把 initDirective 貼到 .mmd 第一行，圖尾貼上 styleBlock，再依 render.kroki 轉檔（務必做 postProcess 去陰影）。",
+      "手動微調：build_flow.py 產出的 diagram.styled.mmd 可直接編輯後再用 render.sh 出圖；重跑 build_flow.py 會自動剝除舊的產生區塊再重建。"
+    ],
+
+    "initDirective": "%%{init: {\"theme\":\"base\",\"fontFamily\":\"roboto, Noto Sans, PingFang TC, Sans-Serif, Microsoft JhengHei\",\"themeVariables\":{\"fontFamily\":\"roboto, Noto Sans, PingFang TC, Sans-Serif, Microsoft JhengHei\",\"background\":\"#F7F7F7\",\"edgeLabelBackground\":\"#FFFFFF\",\"lineColor\":\"#000000\",\"primaryColor\":\"#FFFFFF\",\"primaryBorderColor\":\"#C0C6CB\",\"primaryTextColor\":\"#000000\"},\"themeCSS\":\".node polygon,.node circle,.node rect,.node path,.node .outer-path{filter:none} .cluster rect{filter:none}\",\"flowchart\":{\"curve\":\"basis\",\"nodeSpacing\":40,\"rankSpacing\":55,\"htmlLabels\":false,\"padding\":12}}}%%",
+
+    "styleBlock": "  %% ---- Flow Chart Style：固定樣式區塊，貼在圖的最後 ----\n  classDef pillGray      fill:#D9DDE0,stroke:#000000,stroke-width:2px,color:#000000\n  classDef pillOrange    fill:#FFEAC7,stroke:#F69800,stroke-width:2px,color:#A34900\n  classDef cardDefault   fill:#FFFFFF,stroke:#C0C6CB,stroke-width:2px,color:#000000\n  classDef cardSegmented fill:#FFFFFF,stroke:#C0C6CB,stroke-width:2px,color:#000000\n  classDef decision      fill:#D4F3F6,stroke:#144F66,stroke-width:2px,color:#003D56\n\n  %% 群組框：藍底用 #79CFDD、黃底用 #F69800（把 gBlue/gYellow 換成你的 subgraph id）\n  %% style gBlue   fill:#EAF4F6,stroke:#79CFDD,stroke-width:2px,color:#003D56\n  %% style gYellow fill:#FFF3E0,stroke:#F69800,stroke-width:2px,color:#A34900\n\n  %% 箭頭：逐條用索引指定（含黑線），不要用 linkStyle default，否則所有箭頭會變同色\n  %% linkStyle <黑線索引清單> stroke:#000000,color:#000000,stroke-width:2px\n  %% linkStyle <索引> stroke:#00A513,color:#00A513,stroke-width:2px            %% success 綠\n  %% linkStyle <索引> stroke:#009DDB,color:#009DDB,stroke-width:2px            %% info 藍\n  %% linkStyle <索引> stroke:#FF0033,color:#FF0033,stroke-width:2px            %% danger 紅\n  %% linkStyle <索引> stroke:#9F9F9F,color:#9F9F9F,stroke-width:2px,stroke-dasharray:8 4   %% muted 灰虛線\n",
+
+    "canvas": { "background": "#F7F7F7", "textColor": "#000000" },
+
+    "nodeClasses": {
+      "pillGray":      { "shape": "([\"文字\"])", "classDef": "fill:#D9DDE0,stroke:#000000,stroke-width:2px,color:#000000", "usage": "起點 / 中性端點" },
+      "pillOrange":    { "shape": "([\"文字\"])", "classDef": "fill:#FFEAC7,stroke:#F69800,stroke-width:2px,color:#A34900", "usage": "結果節點（無出線者）/ 高亮關鍵步驟" },
+      "cardDefault":   { "shape": "(\"文字\")",   "classDef": "fill:#FFFFFF,stroke:#C0C6CB,stroke-width:2px,color:#000000", "usage": "一般處理步驟（圓角矩形）" },
+      "cardSegmented": { "shape": "(\"文字\")",   "classDef": "fill:#FFFFFF,stroke:#C0C6CB,stroke-width:2px,color:#000000", "usage": "多欄 / 平行內容步驟；Mermaid 無內部分隔線，視覺同 cardDefault" },
+      "decision":      { "shape": "{\"文字\"}",   "classDef": "fill:#D4F3F6,stroke:#144F66,stroke-width:2px,color:#003D56", "usage": "判斷 / 決策分歧（常搭 success / danger 箭頭）" }
+    },
+
+    "arrowClasses": {
+      "default": { "linkStyle": "stroke:#000000,color:#000000,stroke-width:2px", "usage": "標準流程主路徑" },
+      "success": { "linkStyle": "stroke:#00A513,color:#00A513,stroke-width:2px", "usage": "條件成立 / 通過驗證 / 正常完成" },
+      "info":    { "linkStyle": "stroke:#009DDB,color:#009DDB,stroke-width:2px", "usage": "資訊性、次要或外部參照支線" },
+      "danger":  { "linkStyle": "stroke:#FF0033,color:#FF0033,stroke-width:2px", "usage": "錯誤 / 例外 / 中斷 / 條件不成立" },
+      "muted":   { "linkStyle": "stroke:#9F9F9F,color:#9F9F9F,stroke-width:2px,stroke-dasharray:8 4", "usage": "可略過步驟 / 回溯 / 弱關聯（虛線）" }
+    },
+
+    "groupStyles": {
+      "blue":   { "fill": "#EAF4F6", "stroke": "#79CFDD", "labelColor": "#003D56", "strokeWidth": "2px", "cornerRadius": 16 },
+      "yellow": { "fill": "#FFF3E0", "stroke": "#F69800", "labelColor": "#A34900", "strokeWidth": "2px", "cornerRadius": 16 },
+      "note": "群組底色需比內部節點更淺，不可比成員更深；label 置於 top-center。"
+    },
+
+    "rules": {
+      "arrowColorMatchesLine": "每條連線都要用 linkStyle <索引> 逐條指定 stroke（黑線也要），Mermaid 才會產生同色箭頭 marker。禁用 linkStyle default。",
+      "linkStyleIndex": "索引 = 連線在檔案中出現的順序，0 起算；增刪連線後要重編。可用逗號清單，如 linkStyle 0,1,4,6 ...",
+      "endNode": "節點下方若無任何出線，套 pillOrange 表示「結果」。",
+      "textWrapping": { "maxCharsPerLine": 20, "measure": "中文/全形=1、半形=1（近似）", "breakOnParenthesis": true, "method": "手動在需要處插入 <br/>；括號內補充另起一行" },
+      "noOverlap": "Label 不壓線、不壓其他節點；連線盡量不穿越節點。Mermaid 自動排版，必要時切換 TD/LR 或用 subgraph 分組。",
+      "edgeLabel": { "background": "#FFFFFF", "colorMatchesStroke": true },
+      "krokiFontMetrics": "Kroki 伺服器端無 CJK/Latin 字型，會把節點算得偏窄，resvg 再以實際字型描字 → 標籤右側可能被裁掉約 1 字。已用 flowchart.htmlLabels:false + padding:12 緩解（修好邊線標籤）；節點文字仍建議用 <br/> 斷成短行。本機 mmdc 或 mermaid.live 有字型，不會發生。"
+    },
+
+    "postProcess": {
+      "why": "Kroki 的 SVG 光柵器 (resvg) 會誤套 Mermaid base 主題 [data-look=\"neo\"] 的 filter:drop-shadow 規則，讓節點卡片出現陰影。mmdc / 真實瀏覽器 / mermaid.live 不受影響，可略過此步。",
+      "required_for": ["kroki-svg", "kroki-png"],
+      "regex": "filter\\s*:\\s*drop-shadow\\((?:[^()]|\\([^()]*\\))*\\)",
+      "replacement": "filter:none",
+      "sed": "LC_ALL=C sed -E 's/filter[[:space:]]*:[[:space:]]*drop-shadow\\([^)]*\\)[^;}\"]*/filter:none/g' in.svg > out.svg",
+      "python": "import re,sys; s=open(sys.argv[1]).read(); open(sys.argv[1],'w').write(re.sub(r'filter\\s*:\\s*drop-shadow\\((?:[^()]|\\([^()]*\\))*\\)','filter:none',s))"
+    },
+
+    "render": {
+      "mmdc": [
+        "mmdc --configFile flow-chart.mermaid.json -i diagram.mmd -o diagram.svg",
+        "mmdc --configFile flow-chart.mermaid.json -i diagram.mmd -o diagram.png -w 2048 --backgroundColor '#F7F7F7'"
+      ],
+      "kroki": [
+        "curl -sS -X POST -H 'Content-Type: text/plain' --data-binary @diagram.mmd https://kroki.io/mermaid/svg -o diagram.svg",
+        "# 然後執行 postProcess 去陰影（見上方 sed / python）",
+        "# PNG：改打 https://kroki.io/mermaid/png（同樣需 postProcess，或改用 mmdc 出 PNG）"
+      ],
+      "helperScript": "./render.sh <name>  會依序做 Kroki 取 SVG → postProcess 去陰影 → （有 Chrome 時）光柵成去邊 PNG",
+      "outputPolicy": "flow_chart_style.json 指定 onlySvg；PNG 僅供預覽 / 自檢，交付以 SVG 為準。"
+    },
+
+    "validation": "轉檔前一律先驗證：curl -sS -X POST -H 'Content-Type: text/plain' --data-binary @diagram.mmd https://kroki.io/mermaid/svg -o /tmp/_v.svg 且 HTTP 200。",
+
+    "notMappable": [
+      "固定節點尺寸（JSON 的 323x138 等）— Mermaid 依內容自動縮放",
+      "精確 40px 間距 / noOverlap 保證 — 只能用 nodeSpacing / rankSpacing 近似",
+      "正交折線 + 24px 圓角轉角 — 現用 curve:basis 圓弧；要正交改 curve:step（無圓角）",
+      "cardSegmented 內部分隔線",
+      "箭頭 marker 固定 12px"
+    ]
+  }
+}

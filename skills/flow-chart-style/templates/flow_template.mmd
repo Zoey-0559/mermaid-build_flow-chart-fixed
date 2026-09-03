@@ -1,0 +1,48 @@
+%% =============================================================
+%%  Flow Chart Style — 起手式（給 build_flow.py 用的「純」flowchart）
+%%
+%%  1) 用腳本（最快）：
+%%       python3 build_flow.py flow_template.mmd            -> .styled.mmd + .svg
+%%       python3 build_flow.py flow_template.mmd --png      -> 另存 PNG 預覽
+%%     腳本會自動：注入 init 標頭、為每個節點加 :::類名、
+%%     依連線順序自動編號 linkStyle、產生群組框 style、驗證後出圖。
+%%
+%%  2) 提示（全部可省略，省略時由腳本推斷）：
+%%       節點行  %% @pillGray | @pillOrange | @cardDefault | @cardSegmented | @decision
+%%       連線行  %% @default | @success | @info | @danger | @muted
+%%       subgraph 行  %% @group blue | @group yellow
+%%
+%%  推斷規則：{ } 菱形 -> decision；第一個節點 / 無入線 -> pillGray；
+%%           無出線 -> pillOrange；其餘 -> cardDefault。
+%% =============================================================
+
+flowchart TB
+
+  start(["開始"])
+  step1["一般處理步驟"]
+  choice{"判斷條件？"}
+  done(["流程完成"])
+
+  subgraph g1["群組標題"]        %% @group blue
+    step1
+    choice
+  end
+
+  start --> step1
+  step1 --> choice
+  choice -->|"成立"| done        %% @success
+  choice -->|"不成立"| step1      %% @danger
+
+%% =============================================================
+%%  沒有 Python 時的手動樣式區塊（把下面整段貼到圖尾，並依連線順序設 linkStyle）
+%%  注意：勿在註解裡寫出完整的 %%{init ...}%% 指令字串，Mermaid 會誤判為真正的指令
+%% =============================================================
+%%  classDef pillGray      fill:#D9DDE0,stroke:#000000,stroke-width:2px,color:#000000
+%%  classDef pillOrange    fill:#FFEAC7,stroke:#F69800,stroke-width:2px,color:#A34900
+%%  classDef cardDefault   fill:#FFFFFF,stroke:#C0C6CB,stroke-width:2px,color:#000000
+%%  classDef cardSegmented fill:#FFFFFF,stroke:#C0C6CB,stroke-width:2px,color:#000000
+%%  classDef decision      fill:#D4F3F6,stroke:#144F66,stroke-width:2px,color:#003D56
+%%  style g1 fill:#EAF4F6,stroke:#79CFDD,stroke-width:2px,color:#003D56   %% 藍；黃用 fill:#FFF3E0,stroke:#F69800
+%%  linkStyle 0,1 stroke:#000000,color:#000000,stroke-width:2px
+%%  linkStyle 2 stroke:#00A513,color:#00A513,stroke-width:2px             %% success 綠
+%%  linkStyle 3 stroke:#FF0033,color:#FF0033,stroke-width:2px             %% danger 紅
