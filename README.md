@@ -1,8 +1,14 @@
-# Mermaid + flow-chart-style 使用方式
-與 mermaid.ai 生成並行，套用 Flow 繪製規範，讓圖面美觀與一致
+兩套工具，對應兩種情境。
+1. `flowchart-change-style`（資料夾：`flow change style`）
+> 過 Mermaid，直接依設計 token 重畫成 SVG。
+[https://github.com/Zoey-0559/flow-chart_change-style](https://github.com/Zoey-0559/flow-chart_change-style)
+
+2. `flow-chart-style`（資料夾：`flow mermaid build`）
+> Mermaid 本身有主題／樣式選項限制，第二個 skill 將視覺語言改寫成符合 Mermaid 生成規範的 config／skill；
 
 ---
 
+# Mermaid + flow-chart-style 使用方式
 **來源檔**：`flow-chart.mermaid.json`
 **Skill 指令**: `/flow-chart-style`
 **輸出檔**：`SVG` `PNG` `mmd` `styled`  
