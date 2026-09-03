@@ -7,9 +7,9 @@
 > Mermaid 套用樣式直接生成，本身有主題／樣式選項限制，將視覺語言改寫成符合 Mermaid 生成規範的 config／skill；
 
 #### 效率排序（快 → 慢）
-1. **Mermaid 預設**：直接產出
-2. **生成即美化**（`flow-chart-style`）：一次生成就帶樣式
-3. **二次繪製**（`flowchart-change-style`）：要先讀圖 → 建模（列節點與邊、判語意）→ 依 token 重畫 SVG → 延伸版面 → 檢查內容是否零重疊
+1. Mermaid 預設：直接產出
+2. 生成即美化（`flow-chart-style`）：一次生成就帶樣式
+3. 二次繪製（`flowchart-change-style`）：要先讀圖 → 建模（列節點與邊、判語意）→ 依 token 重畫 SVG → 延伸版面 → 檢查內容是否零重疊
 
 
 ---
